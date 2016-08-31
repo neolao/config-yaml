@@ -1,0 +1,5 @@
+imports:
+    - { resource: "default.yml" }
+
+foo: "hello"
+tic: "tac"
