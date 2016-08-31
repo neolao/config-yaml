@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
+import deepmerge from "deepmerge";
 
 /**
  * Load YAML file
@@ -50,11 +51,11 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
             }
 
             let entryConfig = loadConfigurationYaml(`${relativeDirectory}/${importEntry.resource}`, options);
-            baseConfig = Object.assign(baseConfig, entryConfig);
+            baseConfig = deepmerge(baseConfig, entryConfig);
         }
 
         // Override the base configuration with the current configuration
-        config = Object.assign(baseConfig, config);
+        config = deepmerge(baseConfig, config);
 
         // Remove import entries from configuration
         delete config.imports;

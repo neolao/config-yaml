@@ -1,7 +1,7 @@
 {
     "name"          : "config-yaml",
     "description"   : "YAML configuration for NodeJS",
-    "version"       : "1.0.1",
+    "version"       : "1.0.2",
     "author"        : "neolao <contact@neolao.com>",
     "private"       : false,
     "repository"    : "https://github.com/neolao/config-yaml.git",
@@ -13,7 +13,8 @@
     },
     "dependencies"  :
     {
-        "js-yaml"           : "^3.6"
+        "js-yaml"           : "^3.6",
+        "deepmerge"         : "^0.2"
     },
     "devDependencies":
     {

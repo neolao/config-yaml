@@ -3,3 +3,7 @@ list:
     - 1
     - 2
     - 3
+
+parameters:
+    a: "b"
+    c: "d"

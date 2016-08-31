@@ -3,3 +3,8 @@ imports:
 
 foo: "hello"
 tic: "tac"
+list:
+    - 4
+
+parameters:
+    a: "z"
