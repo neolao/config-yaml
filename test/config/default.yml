@@ -1,3 +1,6 @@
+imports:
+    - { resource: "routing/default.yml", property: "http_router.routes.default" }
+
 foo: "bar"
 list:
     - 1
@@ -7,3 +10,5 @@ list:
 parameters:
     a: "b"
     c: "d"
+
+

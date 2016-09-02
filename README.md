@@ -28,7 +28,8 @@ import configYaml from "config-yaml";
 
 const config = configYaml(`${__dirname}/config/default.yml`);
 
-console.log(config.foo);
+console.log(config.foo); // "bar"
+console.log(config.list[1]); // 2
 ```
 
 Example with `imports` directive
@@ -39,6 +40,7 @@ Example with `imports` directive
 ```yaml
 imports:
     - { resource: "default.yml" }
+    - { resource: "routing/api.yml", property: "routing.api" }
 
 foo: "hello"
 tic: "tac"
@@ -50,5 +52,6 @@ import configYaml from "config-yaml";
 const config = configYaml(`${__dirname}/config/production.yml`);
 
 console.log(config.foo); // "hello"
+console.log(config.routing.api); // Configuration from routing/api.yml
 ```
 

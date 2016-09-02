@@ -1,0 +1,4 @@
+example_index:
+    path:       /
+    controller: DefaultController
+    action:     index

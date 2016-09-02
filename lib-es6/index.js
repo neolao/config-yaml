@@ -50,8 +50,34 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
                 continue;
             }
 
+            // Entry configuration
             let entryConfig = loadConfigurationYaml(`${relativeDirectory}/${importEntry.resource}`, options);
-            baseConfig = deepmerge(baseConfig, entryConfig);
+
+            // By default, the merge is done on the configuration root
+            let targetProperty = null;
+            let property = baseConfig;
+            if (importEntry.hasOwnProperty("property")) {
+                targetProperty = importEntry.property;
+            }
+            if (targetProperty && targetProperty.length > 0) {
+                let propertyPath = targetProperty.split(".");
+                let parentProperty = property;
+                let lastPropertyName = null;
+                for (let propertyName of propertyPath) {
+                    lastPropertyName = propertyName;
+                    parentProperty = property;
+
+                    if (property.hasOwnProperty(propertyName)) {
+                        property = property[propertyName];
+                    } else {
+                        // Create the property if it does not exist
+                        property = property[propertyName] = {};
+                    }
+                }
+                parentProperty[lastPropertyName] = deepmerge(property, entryConfig);
+            } else {
+                baseConfig = deepmerge(baseConfig, entryConfig);
+            }
         }
 
         // Override the base configuration with the current configuration
