@@ -15,5 +15,5 @@ assert.strictEqual(config.tic, "tac");
 assert.strictEqual(config.list[3], 4);
 assert.strictEqual(config.parameters.a, "z");
 
-
 assert.strictEqual(config.http_router.routes.default.example_index.controller, "DefaultController");
+assert.strictEqual(config.security.rules[0], "a");

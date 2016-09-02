@@ -67,7 +67,7 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
                     lastPropertyName = propertyName;
                     parentProperty = property;
 
-                    if (property.hasOwnProperty(propertyName)) {
+                    if (typeof property === "object" && property.hasOwnProperty(propertyName)) {
                         property = property[propertyName];
                     } else {
                         // Create the property if it does not exist
