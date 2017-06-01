@@ -1,7 +1,8 @@
-import fs from "fs";
-import path from "path";
-import yaml from "js-yaml";
-import deepmerge from "deepmerge";
+/* @flow */
+import fs from "fs"
+import path from "path"
+import yaml from "js-yaml"
+import deepmerge from "deepmerge"
 
 /**
  * Load YAML file
@@ -18,7 +19,7 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
     // Check read access
     let readFlag = fs.R_OK;
     if (!readFlag && fs.constants) {
-        readFlag.constants.R_OK;
+        readFlag = fs.constants.R_OK;
     }
     try {
         fs.accessSync(absoluteFilePath, readFlag);
@@ -37,6 +38,9 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
 
     // Convert YAML content to object
     let config = yaml.safeLoad(content);
+    if (typeof config !== "object") {
+        config = {};
+    }
 
     // Handle "imports" directive
     if (config.hasOwnProperty("imports") && Array.isArray(config.imports)) {
@@ -74,7 +78,9 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
                         property = property[propertyName] = {};
                     }
                 }
-                parentProperty[lastPropertyName] = deepmerge(property, entryConfig);
+                if (lastPropertyName !== null) {
+                    parentProperty[lastPropertyName] = deepmerge(property, entryConfig);
+                }
             } else {
                 baseConfig = deepmerge(baseConfig, entryConfig);
             }
@@ -88,7 +94,7 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
     }
 
     return config;
-};
+}
 
 
 export default loadConfigurationYaml;

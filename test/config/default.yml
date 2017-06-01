@@ -1,5 +1,6 @@
 imports:
     - { resource: "routing/default.yml", property: "http_router.routes.default" }
+    - { resource: "routing/default.yml", property: "routing.a.b.c" }
     - { resource: "security.yml", property: "security" }
 
 foo: "bar"
@@ -12,3 +13,5 @@ parameters:
     a: "b"
     c: "d"
 
+routing:
+    debug: true
