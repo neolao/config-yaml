@@ -1,7 +1,7 @@
 {
     "name": "config-yaml",
     "description": "YAML configuration for NodeJS",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "author": "neolao <contact@neolao.com>",
     "private": false,
     "repository": "https://github.com/neolao/config-yaml.git",
@@ -14,7 +14,7 @@
         "lib"
     ],
     "dependencies": {
-        "deepmerge": "^0.2",
+        "deepmerge": "^1.3.2",
         "js-yaml": "^3.8.4"
     },
     "devDependencies": {
@@ -45,6 +45,9 @@
         "plugins": []
     },
     "eslintConfig": {
-        "extends": ["eslint:recommended", "plugin:solfege/recommended"]
+        "extends": [
+            "eslint:recommended",
+            "plugin:solfege/recommended"
+        ]
     }
 }
