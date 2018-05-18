@@ -8,3 +8,4 @@ list:
 
 parameters:
     a: "z"
+    b: "%__dirname%"

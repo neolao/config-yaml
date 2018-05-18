@@ -11,8 +11,12 @@ import deepmerge from "deepmerge"
  * @param   {object}    options     Options
  * @return  {object}                YAML content converted to object
  */
-function loadConfigurationYaml(filePath:string, options:Object = {})
+function loadConfigurationYaml(filePath:string, options?:Object)
 {
+    if (!options) {
+        options = {};
+    }
+
     // Get absolute file path
     let absoluteFilePath:string = path.resolve(filePath);
 
@@ -35,6 +39,10 @@ function loadConfigurationYaml(filePath:string, options:Object = {})
 
     // Load file content
     let content = fs.readFileSync(filePath, encoding);
+
+    // Replace global variables
+    content = content.replace(/%__dirname%/g, path.dirname(absoluteFilePath));
+    content = content.replace(/%__filename%/g, absoluteFilePath);
 
     // Convert YAML content to object
     let config = yaml.safeLoad(content);
