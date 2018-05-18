@@ -55,3 +55,11 @@ console.log(config.foo); // "hello"
 console.log(config.routing.api); // Configuration from routing/api.yml
 ```
 
+Available variables
+-------------------
+
+| Variable       | Description                             |
+| -------------- | --------------------------------------- |
+| `%__dirname%`  | Directory path of the current YAML file |
+| `%__filename%` | Current YAML file path                  |
+
