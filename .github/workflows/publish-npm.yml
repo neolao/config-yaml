@@ -16,7 +16,7 @@ jobs:
 
   publish:
     name: Publish to NPM
-    if: github.event_name == "published"
+    if: github.event_name == 'published'
     needs: test
     runs-on: ubuntu-latest
     steps:
