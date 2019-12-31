@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require("assert");
-const configYaml = require("../lib");
+const configYaml = require("../index");
 
 let config = configYaml(`${__dirname}/config/default.yml`);
 assert.strictEqual(config.foo, "bar");
