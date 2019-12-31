@@ -22,16 +22,12 @@
         "babel-preset-solfege": "^1.0",
         "eslint": "^4.18",
         "eslint-plugin-solfege": "^1.0",
-        "flow-bin": "^0.71.0",
         "watch": "^1.0.2"
     },
     "scripts": {
-        "flow-stop": "flow stop",
-        "flow-start": "flow start",
-        "flow-restart": "flow stop; flow start",
         "prepare": "npm run build",
         "lint": "eslint --ext .js src",
-        "prebuild": "npm run lint && flow",
+        "prebuild": "npm run lint",
         "build": "babel --out-dir lib src --copy-files",
         "watch": "watch 'echo \"----------\"; npm run build --silent' ./src",
         "test": "node --harmony test/index.js"

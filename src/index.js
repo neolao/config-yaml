@@ -11,14 +11,14 @@ import deepmerge from "deepmerge"
  * @param   {object}    options     Options
  * @return  {object}                YAML content converted to object
  */
-function loadConfigurationYaml(filePath:string, options?:Object)
+function loadConfigurationYaml(filePath, options)
 {
     if (!options) {
         options = {};
     }
 
     // Get absolute file path
-    let absoluteFilePath:string = path.resolve(filePath);
+    let absoluteFilePath = path.resolve(filePath);
 
     // Check read access
     let readFlag = fs.R_OK;
@@ -53,7 +53,7 @@ function loadConfigurationYaml(filePath:string, options?:Object)
     // Handle "imports" directive
     if (config.hasOwnProperty("imports") && Array.isArray(config.imports)) {
         // Resources are relative to the original file
-        let relativeDirectory:string = path.dirname(absoluteFilePath);
+        let relativeDirectory = path.dirname(absoluteFilePath);
 
         // Build a base configuration
         let baseConfig = {};
