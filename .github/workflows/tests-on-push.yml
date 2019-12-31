@@ -3,13 +3,33 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  tests:
+  tests-5-to-7:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [5.x, 6.x, 7.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: test
+      run: |
+        npm install
+        npm test
+      env:
+        CI: true
+
+  tests-8-to-13:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [5.x, 6.x, 7.x, 8.x, 9.x, 10.x, 11.x, 12.x, 13.x]
+        node-version: [8.x, 9.x, 10.x, 11.x, 12.x, 13.x]
 
     steps:
     - uses: actions/checkout@v1
