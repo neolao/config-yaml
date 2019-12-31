@@ -1,70 +1,71 @@
 "use strict";
+const fs = require("fs");
+const path = require("path");
+const yaml = require("js-yaml");
+const deepmerge = require("deepmerge");
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _fs = require("fs");
-
-var _fs2 = _interopRequireDefault(_fs);
-
-var _path = require("path");
-
-var _path2 = _interopRequireDefault(_path);
-
-var _jsYaml = require("js-yaml");
-
-var _jsYaml2 = _interopRequireDefault(_jsYaml);
-
-var _deepmerge = require("deepmerge");
-
-var _deepmerge2 = _interopRequireDefault(_deepmerge);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function loadConfigurationYaml(filePath, options) {
+/**
+ * Load YAML file
+ *
+ * @param   {string}    filePath    YAML file path
+ * @param   {object}    options     Options
+ * @return  {object}                YAML content converted to object
+ */
+module.exports = function loadConfigurationYaml(filePath, options)
+{
     if (!options) {
         options = {};
     }
 
-    let absoluteFilePath = _path2.default.resolve(filePath);
+    // Get absolute file path
+    let absoluteFilePath = path.resolve(filePath);
 
-    let readFlag = _fs2.default.R_OK;
-    if (!readFlag && _fs2.default.constants) {
-        readFlag = _fs2.default.constants.R_OK;
+    // Check read access
+    let readFlag = fs.R_OK;
+    if (!readFlag && fs.constants) {
+        readFlag = fs.constants.R_OK;
     }
     try {
-        _fs2.default.accessSync(absoluteFilePath, readFlag);
+        fs.accessSync(absoluteFilePath, readFlag);
     } catch (error) {
         throw new Error(`Unable to read file: ${absoluteFilePath}`);
     }
 
+    // File encoding
     let encoding = "utf8";
     if (options.encoding) {
         encoding = options.encoding;
     }
 
-    let content = _fs2.default.readFileSync(filePath, encoding);
+    // Load file content
+    let content = fs.readFileSync(filePath, encoding);
 
-    content = content.replace(/%__dirname%/g, _path2.default.dirname(absoluteFilePath));
+    // Replace global variables
+    content = content.replace(/%__dirname%/g, path.dirname(absoluteFilePath));
     content = content.replace(/%__filename%/g, absoluteFilePath);
 
-    let config = _jsYaml2.default.safeLoad(content);
+    // Convert YAML content to object
+    let config = yaml.safeLoad(content);
     if (typeof config !== "object") {
         config = {};
     }
 
+    // Handle "imports" directive
     if (config.hasOwnProperty("imports") && Array.isArray(config.imports)) {
-        let relativeDirectory = _path2.default.dirname(absoluteFilePath);
+        // Resources are relative to the original file
+        let relativeDirectory = path.dirname(absoluteFilePath);
 
+        // Build a base configuration
         let baseConfig = {};
         for (let importEntry of config.imports) {
             if (!importEntry.hasOwnProperty("resource")) {
                 continue;
             }
 
+            // Entry configuration
             let entryConfig = loadConfigurationYaml(`${relativeDirectory}/${importEntry.resource}`, options);
 
+            // By default, the merge is done on the configuration root
             let targetProperty = null;
             let property = baseConfig;
             if (importEntry.hasOwnProperty("property")) {
@@ -81,24 +82,24 @@ function loadConfigurationYaml(filePath, options) {
                     if (typeof property === "object" && property.hasOwnProperty(propertyName)) {
                         property = property[propertyName];
                     } else {
+                        // Create the property if it does not exist
                         property = property[propertyName] = {};
                     }
                 }
                 if (lastPropertyName !== null) {
-                    parentProperty[lastPropertyName] = (0, _deepmerge2.default)(property, entryConfig);
+                    parentProperty[lastPropertyName] = deepmerge(property, entryConfig);
                 }
             } else {
-                baseConfig = (0, _deepmerge2.default)(baseConfig, entryConfig);
+                baseConfig = deepmerge(baseConfig, entryConfig);
             }
         }
 
-        config = (0, _deepmerge2.default)(baseConfig, config);
+        // Override the base configuration with the current configuration
+        config = deepmerge(baseConfig, config);
 
+        // Remove import entries from configuration
         delete config.imports;
     }
 
     return config;
 }
-
-exports.default = loadConfigurationYaml;
-module.exports = exports["default"];

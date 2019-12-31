@@ -6,38 +6,25 @@
     "private": false,
     "repository": "https://github.com/neolao/config-yaml.git",
     "license": "MIT",
-    "main": "lib/index.js",
+    "main": "index.js",
     "engines": {
         "node": ">= 5"
     },
     "files": [
-        "lib"
+        "index.js"
     ],
     "dependencies": {
         "deepmerge": "^2.1.0",
         "js-yaml": "^3.11.0"
     },
     "devDependencies": {
-        "babel-cli": "^6.7",
-        "babel-preset-solfege": "^1.0",
         "eslint": "^4.18",
-        "eslint-plugin-solfege": "^1.0",
-        "watch": "^1.0.2"
+        "eslint-plugin-solfege": "^1.0"
     },
     "scripts": {
-        "prepare": "npm run build",
         "lint": "eslint --ext .js src",
         "prebuild": "npm run lint",
-        "build": "babel --out-dir lib src --copy-files",
-        "watch": "watch 'echo \"----------\"; npm run build --silent' ./src",
         "test": "node --harmony test/index.js"
-    },
-    "babel": {
-        "presets": [
-            "solfege"
-        ],
-        "comments": false,
-        "plugins": []
     },
     "eslintConfig": {
         "extends": [
