@@ -14,11 +14,11 @@
         "index.js"
     ],
     "dependencies": {
-        "deepmerge": "^2.1.0",
-        "js-yaml": "^3.11.0"
+        "deepmerge": "^4.2.2",
+        "js-yaml": "^3.13.1"
     },
     "devDependencies": {
-        "eslint": "^4.18",
+        "eslint": "^6.8",
         "eslint-plugin-solfege": "^1.0"
     },
     "scripts": {
