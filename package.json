@@ -18,7 +18,7 @@
         "js-yaml": "^3.14.0"
     },
     "devDependencies": {
-        "eslint": "^7.8",
+        "eslint": "^7.9",
         "eslint-plugin-solfege": "^1.0"
     },
     "scripts": {
